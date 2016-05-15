@@ -38,6 +38,8 @@ const store = new SmoochApiStore({
 });
 const lock = new MemoryLock();
 
+console.log("Test");
+
 function createWebhook(smoochCore, target) {
     return smoochCore.webhooks.create({
             target,
