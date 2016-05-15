@@ -11,6 +11,8 @@ const SmoochCore = require('smooch-core');
 const jwt = require('../jwt');
 const fs = require('fs');
 
+console.log(script);
+
 class BetterSmoochApiBot extends SmoochApiBot {
     constructor(options) {
         super(options);
@@ -37,8 +39,6 @@ const store = new SmoochApiStore({
     jwt
 });
 const lock = new MemoryLock();
-
-console.log("Test");
 
 function createWebhook(smoochCore, target) {
     return smoochCore.webhooks.create({
