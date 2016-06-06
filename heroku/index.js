@@ -91,6 +91,42 @@ if (process.env.SERVICE_URL) {
         });
 }
 
+function handleMessages(req, res) {
+    const messages = req.body.messages.reduce((prev, current) => {
+        if (current.role === 'appUser') {
+            prev.push(current);
+        }
+        return prev;
+    }, []);
+
+    if (messages.length === 0) {
+        return res.end();
+    }
+
+    const stateMachine = new StateMachine({
+        script,
+        bot: createBot(req.body.appUser)
+    });
+
+    stateMachine.receiveMessage(messages[0])
+        .then(() => res.end())
+        .catch((err) => {
+            console.error('SmoochBot error:', err);
+            console.error(err.stack);
+            res.end();
+        });
+}
+
+function handlePostback(req, res) {
+    const postback = req.body.postbacks[0];
+    if (!postback || !postback.action) {
+        res.end();
+    }
+
+    createBot(req.body.appUser).say(`You said: ${postback.action.text} (payload was: ${postback.action.payload})`)
+        .then(() => res.end());
+}
+
 app.post('/webhook', function(req, res, next) {
     var isPostback = req.body.trigger == "postback";
     var msg = '';
