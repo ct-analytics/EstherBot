@@ -11,8 +11,6 @@ const SmoochCore = require('smooch-core');
 const jwt = require('../jwt');
 const fs = require('fs');
 
-console.log(script);
-
 class BetterSmoochApiBot extends SmoochApiBot {
     constructor(options) {
         super(options);
@@ -62,6 +60,19 @@ function createWebhook(smoochCore, target) {
         )
         .catch((err) => {
             console.error('Error creating Smooch webhook:', err);
+            console.error(err.stack);
+        });
+}
+
+function updateWebhook(smoochCore, existingWebhook) {
+    return smoochCore.webhooks.update(existingWebhook._id, {
+        triggers: webhookTriggers
+    })
+        .then((res) => {
+            console.log('Smooch webhook updated with missing triggers', res.webhook.target);
+        })
+        .catch((err) => {
+            console.error('Error updating Smooch webhook:', err);
             console.error(err.stack);
         });
 }
