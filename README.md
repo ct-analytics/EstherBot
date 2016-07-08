@@ -1,3 +1,5 @@
+This is just a test.
+
 # EstherBot built using the Smooch Bot example
 If you want a slightly more sophisticated setup and are comfortable using the console then go see the original here: https://github.com/smooch/smooch-bot-example 
 
